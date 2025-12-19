@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POOJA PITHVA | JUST BUILD IT</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --black: #0a0a0a;
+        --white: #ffffff;
+        --nike-red: #ff0000;
+        --gray: #1a1a1a;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--black);
+        color: var(--white);
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* Custom Cursor - Nike Swoosh */
+      .cursor {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--white);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 10000;
+        transition: transform 0.1s ease, background 0.2s ease;
+        mix-blend-mode: difference;
+      }
+
+      .cursor.hover {
+        transform: scale(2);
+        background: var(--white);
+      }
+
+      .cursor-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--nike-red);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 10001;
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        inset: 0;
+        background: var(--black);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .preloader.hidden {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.8s ease;
+      }
+
+      .preloader-text {
+        font-family: 'Oswald', sans-serif;
+        font-size: 15vw;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        overflow: hidden;
+      }
+
+      .preloader-text span {
+        display: inline-block;
+        animation: slideUp 0.6s ease forwards;
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      .preloader-text span:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .preloader-text span:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+      .preloader-text span:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .preloader-text span:nth-child(4) {
+        animation-delay: 0.25s;
+      }
+      .preloader-text span:nth-child(5) {
+        animation-delay: 0.3s;
+      }
+      .preloader-text span:nth-child(6) {
+        animation-delay: 0.35s;
+      }
+      .preloader-text span:nth-child(7) {
+        animation-delay: 0.4s;
+      }
+      .preloader-text span:nth-child(8) {
+        animation-delay: 0.45s;
+      }
+      .preloader-text span:nth-child(9) {
+        animation-delay: 0.5s;
+      }
+      .preloader-text span:nth-child(10) {
+        animation-delay: 0.55s;
+      }
+      .preloader-text span:nth-child(11) {
+        animation-delay: 0.6s;
+      }
+
+      @keyframes slideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .preloader-sub {
+        font-size: 1rem;
+        letter-spacing: 0.3em;
+        margin-top: 1rem;
+        opacity: 0;
+        animation: fadeIn 0.5s ease 1s forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 0.5;
+        }
+      }
+
+      /* Navigation */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 1.5rem 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        mix-blend-mode: difference;
+      }
+
+      .nav-logo {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 3rem;
+      }
+
+      .nav-links a {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--white);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Progress Bar */
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: var(--nike-red);
+        z-index: 1001;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+
+      /* HERO - Cinematic Full Screen */
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-bg-text {
+        position: absolute;
+        font-family: 'Oswald', sans-serif;
+        font-size: 40vw;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.03);
+        white-space: nowrap;
+        user-select: none;
+        animation: bgSlide 20s linear infinite;
+      }
+
+      @keyframes bgSlide {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .hero-content {
+        text-align: center;
+        z-index: 1;
+        max-width: 1200px;
+        padding: 0 2rem;
+      }
+
+      .hero-eyebrow {
+        font-size: 0.75rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeSlideUp 1s ease 1.5s forwards;
+      }
+
+      .hero-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: clamp(4rem, 15vw, 12rem);
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+      }
+
+      .hero-title .line {
+        display: block;
+        overflow: hidden;
+      }
+
+      .hero-title .line span {
+        display: block;
+        opacity: 0;
+        transform: translateY(100%);
+        animation: slideUp 1s ease forwards;
+      }
+
+      .hero-title .line:nth-child(1) span {
+        animation-delay: 1.6s;
+      }
+      .hero-title .line:nth-child(2) span {
+        animation-delay: 1.8s;
+        color: var(--nike-red);
+      }
+
+      .hero-tagline {
+        font-size: 1.1rem;
+        font-weight: 300;
+        letter-spacing: 0.1em;
+        margin-top: 2rem;
+        opacity: 0;
+        animation: fadeSlideUp 1s ease 2.2s forwards;
+      }
+
+      @keyframes fadeSlideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-cta {
+        margin-top: 3rem;
+        opacity: 0;
+        animation: fadeSlideUp 1s ease 2.5s forwards;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 1.2rem 3rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: none;
+        cursor: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary {
+        background: var(--white);
+        color: var(--black);
+      }
+
+      .btn-primary:hover {
+        background: var(--nike-red);
+        color: var(--white);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--white);
+        border: 1px solid var(--white);
+        margin-left: 1rem;
+      }
+
+      .btn-outline:hover {
+        background: var(--white);
+        color: var(--black);
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        animation: fadeSlideUp 1s ease 3s forwards;
+      }
+
+      .scroll-indicator span {
+        font-size: 0.65rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+      }
+
+      .scroll-line {
+        width: 1px;
+        height: 60px;
+        background: linear-gradient(to bottom, var(--white), transparent);
+        animation: scrollPulse 1.5s ease infinite;
+      }
+
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Story Section - THE JOURNEY */
+      .story {
+        min-height: 100vh;
+        padding: 10rem 3rem;
+        position: relative;
+      }
+
+      .story-header {
+        max-width: 800px;
+        margin-bottom: 8rem;
+      }
+
+      .section-number {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.3em;
+        color: var(--nike-red);
+        margin-bottom: 1rem;
+      }
+
+      .section-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 2rem;
+      }
+
+      .section-desc {
+        font-size: 1.2rem;
+        font-weight: 300;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 600px;
+      }
+
+      .story-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .story-card {
+        background: var(--gray);
+        padding: 3rem 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      .story-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .story-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--nike-red);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s ease;
+      }
+
+      .story-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .story-year {
+        font-family: 'Oswald', sans-serif;
+        font-size: 4rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.1);
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+      }
+
+      .story-card h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .story-card h4 {
+        font-size: 0.85rem;
+        color: var(--nike-red);
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+      }
+
+      .story-card p {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Stats Section - NUMBERS DON'T LIE */
+      .stats {
+        padding: 8rem 3rem;
+        background: var(--white);
+        color: var(--black);
+      }
+
+      .stats-grid {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4rem;
+        text-align: center;
+      }
+
+      .stat-item {
+        position: relative;
+      }
+
+      .stat-number {
+        font-family: 'Oswald', sans-serif;
+        font-size: 6rem;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--black);
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        margin-top: 1rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      /* Skills - WHAT I BRING */
+      .skills {
+        padding: 10rem 3rem;
+        background: var(--black);
+      }
+
+      .skills-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .skill-row {
+        display: flex;
+        align-items: center;
+        padding: 2rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .skill-row:hover {
+        padding-left: 2rem;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .skill-row:hover .skill-name {
+        color: var(--nike-red);
+      }
+
+      .skill-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        flex: 1;
+        transition: color 0.3s ease;
+      }
+
+      .skill-bar-container {
+        flex: 2;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        position: relative;
+      }
+
+      .skill-bar {
+        height: 100%;
+        background: var(--white);
+        transition: width 1.5s ease;
+        width: 0;
+      }
+
+      .skill-bar.animate {
+        width: var(--level);
+      }
+
+      .skill-percent {
+        width: 80px;
+        text-align: right;
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.5rem;
+      }
+
+      /* Projects - THE WORK */
+      .projects {
+        padding: 10rem 0;
+      }
+
+      .projects-header {
+        padding: 0 3rem;
+        margin-bottom: 5rem;
+      }
+
+      .project-showcase {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .project-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 80vh;
+        position: relative;
+      }
+
+      .project-item:nth-child(even) .project-image {
+        order: 2;
+      }
+
+      .project-image {
+        background: var(--gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-image::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 0, 0, 0);
+        transition: background 0.5s ease;
+      }
+
+      .project-item:hover .project-image::after {
+        background: rgba(255, 0, 0, 0.1);
+      }
+
+      .project-content {
+        padding: 5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .project-number {
+        font-family: 'Oswald', sans-serif;
+        font-size: 8rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.05);
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+      }
+
+      .project-category {
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--nike-red);
+        margin-bottom: 1rem;
+      }
+
+      .project-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+      }
+
+      .project-desc {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 2rem;
+        max-width: 450px;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .project-tech span {
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .project-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--white);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .project-link:hover {
+        color: var(--nike-red);
+      }
+
+      .project-link::after {
+        content: '→';
+        transition: transform 0.3s ease;
+      }
+
+      .project-link:hover::after {
+        transform: translateX(5px);
+      }
+
+      /* Game Section - PLAY THE GAME */
+      .game-section {
+        padding: 10rem 3rem;
+        background: var(--nike-red);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .game-bg {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.1;
+      }
+
+      .game-bg span {
+        font-family: 'Oswald', sans-serif;
+        font-size: 30vw;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .game-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .game-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 700;
+        margin-bottom: 2rem;
+      }
+
+      .game-desc {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+      }
+
+      .game-canvas {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        margin: 2rem auto;
+        max-width: 600px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .runner {
+        font-size: 3rem;
+        position: absolute;
+        bottom: 50px;
+        left: 50px;
+        transition: bottom 0.3s ease;
+      }
+
+      .runner.jump {
+        bottom: 150px;
+      }
+
+      .obstacle {
+        font-size: 2rem;
+        position: absolute;
+        bottom: 50px;
+        right: -50px;
+        animation: moveObstacle 2s linear infinite;
+      }
+
+      @keyframes moveObstacle {
+        0% {
+          right: -50px;
+        }
+        100% {
+          right: 650px;
+        }
+      }
+
+      .game-score-display {
+        font-family: 'Oswald', sans-serif;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .game-instruction {
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0.7;
+      }
+
+      /* Contact - LET'S CONNECT */
+      .contact {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5rem 3rem;
+        position: relative;
+      }
+
+      .contact-content {
+        text-align: center;
+        max-width: 900px;
+      }
+
+      .contact-headline {
+        font-family: 'Oswald', sans-serif;
+        font-size: clamp(4rem, 12vw, 10rem);
+        font-weight: 700;
+        line-height: 0.9;
+        margin-bottom: 3rem;
+      }
+
+      .contact-headline .red {
+        color: var(--nike-red);
+      }
+
+      .contact-text {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .contact-link {
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--white);
+        text-decoration: none;
+        padding: 1rem 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .contact-link:hover {
+        background: var(--white);
+        color: var(--black);
+      }
+
+      /* Footer */
+      .footer {
+        padding: 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-left {
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .footer-right {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.2em;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .story-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 3rem;
+        }
+        .project-item {
+          grid-template-columns: 1fr;
+        }
+        .project-image {
+          min-height: 50vh;
+          order: 0 !important;
+        }
+        .project-content {
+          padding: 3rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav {
+          padding: 1rem;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero-cta .btn-outline {
+          display: block;
+          margin: 1rem 0 0 0;
+        }
+        .story-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        .stat-number {
+          font-size: 4rem;
+        }
+        .skill-name {
+          font-size: 1.5rem;
+        }
+        .skill-percent {
+          font-size: 1rem;
+          width: 50px;
+        }
+        .project-title {
+          font-size: 2rem;
+        }
+        .contact-links {
+          flex-direction: column;
+          align-items: center;
+        }
+        .footer {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
+        body {
+          cursor: auto;
+        }
+        .cursor,
+        .cursor-dot {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+      <div class="preloader-text">
+        <span>J</span><span>U</span><span>S</span><span>T</span
+        ><span>&nbsp;</span><span>B</span><span>U</span><span>I</span
+        ><span>L</span><span>D</span><span>&nbsp;</span><span>I</span
+        ><span>T</span>
+      </div>
+      <div class="preloader-sub">LOADING EXPERIENCE</div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="nav-logo">POOJA PITHVA</div>
+      <div class="nav-links">
+        <a href="#story">Story</a>
+        <a href="#skills">Skills</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg-text">
+        JUST BUILD IT • JUST BUILD IT • JUST BUILD IT • JUST BUILD IT •
+      </div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Software Engineer • Builder • Creator</div>
+        <h1 class="hero-title">
+          <div class="line"><span>POOJA</span></div>
+          <div class="line"><span>PITHVA</span></div>
+        </h1>
+        <p class="hero-tagline">
+          I don't wait for opportunities. I build them.
+        </p>
+        <div class="hero-cta">
+          <a href="#work" class="btn btn-primary">See My Work</a>
+          <a href="#contact" class="btn btn-outline">Let's Talk</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="story" id="story">
+      <div class="story-header">
+        <div class="section-number">01 — THE JOURNEY</div>
+        <h2 class="section-title">EVERY CHAMPION<br />HAS A STORY</h2>
+        <p class="section-desc">
+          From Clark University to building production applications, my journey
+          is defined by one principle: never stop moving forward. Every line of
+          code is a step toward greatness.
+        </p>
+      </div>
+
+      <div class="story-grid">
+        <div class="story-card">
+          <span class="story-year">24</span>
+          <h3>Research Assistant</h3>
+          <h4>Clark University</h4>
+          <p>
+            Building interactive 3D visualizations and educational games.
+            Turning complex data into compelling stories through code.
+          </p>
+        </div>
+        <div class="story-card">
+          <span class="story-year">24</span>
+          <h3>Program Coordinator</h3>
+          <h4>Code Ninjas</h4>
+          <p>
+            Inspiring the next generation of builders. Teaching kids that with
+            code, they can create anything they imagine.
+          </p>
+        </div>
+        <div class="story-card">
+          <span class="story-year">23</span>
+          <h3>Software Engineer Intern</h3>
+          <h4>Hue Logics</h4>
+          <p>
+            Full-stack development in the real world. Shipped features that
+            impact users. Learned that execution beats perfection.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" data-target="4.0">0</div>
+          <div class="stat-label">GPA at Clark</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="50">0</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="5">0</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="1000">0</div>
+          <div class="stat-label">Hours of Code</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills" id="skills">
+      <div class="skills-container">
+        <div class="section-number">02 — THE ARSENAL</div>
+        <h2 class="section-title" style="margin-bottom: 4rem">
+          WEAPONS OF<br />CREATION
+        </h2>
+
+        <div class="skill-row">
+          <div class="skill-name">React / Next.js</div>
+          <div class="skill-bar-container">
+            <div class="skill-bar" style="--level: 95%"></div>
+          </div>
+          <div class="skill-percent">95%</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">TypeScript</div>
+          <div class="skill-bar-container">
+            <div class="skill-bar" style="--level: 90%"></div>
+          </div>
+          <div class="skill-percent">90%</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Python</div>
+          <div class="skill-bar-container">
+            <div class="skill-bar" style="--level: 92%"></div>
+          </div>
+          <div class="skill-percent">92%</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">AWS Cloud</div>
+          <div class="skill-bar-container">
+            <div class="skill-bar" style="--level: 88%"></div>
+          </div>
+          <div class="skill-percent">88%</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Node.js</div>
+          <div class="skill-bar-container">
+            <div class="skill-bar" style="--level: 85%"></div>
+          </div>
+          <div class="skill-percent">85%</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Machine Learning</div>
+          <div class="skill-bar-container">
+            <div class="skill-bar" style="--level: 80%"></div>
+          </div>
+          <div class="skill-percent">80%</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects" id="work">
+      <div class="projects-header">
+        <div class="section-number">03 — THE WORK</div>
+        <h2 class="section-title">BUILT TO<br />PERFORM</h2>
+      </div>
+
+      <div class="project-showcase">
+        <div class="project-item">
+          <div class="project-image">🌍</div>
+          <div class="project-content">
+            <span class="project-number">01</span>
+            <div class="project-category">Research • Data Visualization</div>
+            <h3 class="project-title">Web Development Mining</h3>
+            <p class="project-desc">
+              Interactive 3D globe visualizations exploring the intersection of
+              traditional mining and data-mining industries. Built for Clark
+              University research.
+            </p>
+            <div class="project-tech">
+              <span>React</span>
+              <span>Three.js</span>
+              <span>D3.js</span>
+              <span>Python</span>
+            </div>
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+
+        <div class="project-item">
+          <div class="project-image">🤖</div>
+          <div class="project-content">
+            <span class="project-number">02</span>
+            <div class="project-category">Machine Learning • AI</div>
+            <h3 class="project-title">AI Image Classifier</h3>
+            <p class="project-desc">
+              CNN-based deep learning model achieving real-time image
+              classification. Built from scratch to understand the fundamentals
+              of neural networks.
+            </p>
+            <div class="project-tech">
+              <span>Python</span>
+              <span>TensorFlow</span>
+              <span>CNN</span>
+              <span>Flask</span>
+            </div>
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+
+        <div class="project-item">
+          <div class="project-image">🛒</div>
+          <div class="project-content">
+            <span class="project-number">03</span>
+            <div class="project-category">Full Stack • E-Commerce</div>
+            <h3 class="project-title">E-Commerce Platform</h3>
+            <p class="project-desc">
+              Complete shopping experience with user authentication, payment
+              processing, and AWS deployment. Production-ready architecture.
+            </p>
+            <div class="project-tech">
+              <span>React</span>
+              <span>Node.js</span>
+              <span>AWS</span>
+              <span>MongoDB</span>
+            </div>
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME SECTION -->
+    <section class="game-section">
+      <div class="game-bg"><span>PLAY</span></div>
+      <div class="game-content">
+        <h2 class="game-title">DON'T JUST SCROLL.<br />PLAY.</h2>
+        <p class="game-desc">
+          Life's a game. You either win or you learn. Press SPACE or tap to jump
+          and collect points. Just like coding—keep moving, keep building.
+        </p>
+
+        <div class="game-canvas" id="gameCanvas">
+          <div class="game-score-display">
+            SCORE: <span id="gameScore">0</span>
+          </div>
+          <div class="runner" id="runner">🏃‍♀️</div>
+          <div class="obstacle" id="obstacle">🔥</div>
+          <div class="game-instruction">Press SPACE or TAP to jump</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="contact-content">
+        <h2 class="contact-headline">
+          LET'S BUILD<br /><span class="red">SOMETHING</span><br />GREAT
+        </h2>
+        <p class="contact-text">
+          Ready to bring innovation to Nike. Ready to build scalable solutions.
+          Ready to make an impact. The question is—are you ready for me?
+        </p>
+        <a href="mailto:pooja@example.com" class="btn btn-primary"
+          >Get In Touch</a
+        >
+
+        <div class="contact-links">
+          <a href="#" class="contact-link">LinkedIn</a>
+          <a href="#" class="contact-link">GitHub</a>
+          <a href="#" class="contact-link">Resume</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-left">© 2025 Pooja Pithva. All rights reserved.</div>
+      <div class="footer-right">JUST BUILD IT™</div>
+    </footer>
+
+    <script>
+      // Preloader
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.getElementById('preloader').classList.add('hidden');
+        }, 2000);
+      });
+
+      // Custom Cursor
+      const cursor = document.querySelector('.cursor');
+      const cursorDot = document.querySelector('.cursor-dot');
+
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX - 10 + 'px';
+        cursor.style.top = e.clientY - 10 + 'px';
+        cursorDot.style.left = e.clientX - 3 + 'px';
+        cursorDot.style.top = e.clientY - 3 + 'px';
+      });
+
+      document.querySelectorAll('a, button, .btn').forEach((el) => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () =>
+          cursor.classList.remove('hover')
+        );
+      });
+
+      // Progress Bar
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        document.getElementById('progressBar').style.width =
+          scrollPercent + '%';
+      });
+
+      // Animate Stats
+      const animateStats = () => {
+        document.querySelectorAll('.stat-number').forEach((stat) => {
+          const target = parseFloat(stat.dataset.target);
+          const isDecimal = target % 1 !== 0;
+          let current = 0;
+          const increment = target / 50;
+
+          const updateNumber = () => {
+            if (current < target) {
+              current += increment;
+              stat.textContent = isDecimal
+                ? current.toFixed(1)
+                : Math.ceil(current);
+              requestAnimationFrame(updateNumber);
+            } else {
+              stat.textContent = isDecimal ? target.toFixed(1) : target;
+            }
+          };
+          updateNumber();
+        });
+      };
+
+      // Animate Skill Bars
+      const animateSkills = () => {
+        document.querySelectorAll('.skill-bar').forEach((bar) => {
+          bar.classList.add('animate');
+        });
+      };
+
+      // Intersection Observer
+      const observerOptions = { threshold: 0.3 };
+
+      const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateStats();
+            statsObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      const skillsObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateSkills();
+            skillsObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelector('.stats') &&
+        statsObserver.observe(document.querySelector('.stats'));
+      document.querySelector('.skills') &&
+        skillsObserver.observe(document.querySelector('.skills'));
+
+      // Mini Game
+      let score = 0;
+      let isJumping = false;
+      const runner = document.getElementById('runner');
+      const obstacle = document.getElementById('obstacle');
+      const scoreDisplay = document.getElementById('gameScore');
+
+      const jump = () => {
+        if (isJumping) return;
+        isJumping = true;
+        runner.classList.add('jump');
+
+        setTimeout(() => {
+          runner.classList.remove('jump');
+          isJumping = false;
+        }, 500);
+      };
+
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+          e.preventDefault();
+          jump();
+        }
+      });
+
+      document.getElementById('gameCanvas').addEventListener('click', jump);
+      document
+        .getElementById('gameCanvas')
+        .addEventListener('touchstart', jump);
+
+      // Score incrementer
+      setInterval(() => {
+        if (document.querySelector('.game-section:hover') || isJumping) {
+          score += isJumping ? 10 : 1;
+          scoreDisplay.textContent = score;
+        }
+      }, 100);
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
